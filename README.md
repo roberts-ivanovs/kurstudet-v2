@@ -1,6 +1,8 @@
-# docker-django-drw-react-tsx-rust-webgl
+# Kurstudet V2
 
-A slightly opinionated local dev full stack template using docker-compose with Django backend and React frontend; all served behind NGINX. Keeping the full stack in one repo for ease of use. Composed of ideas from multiple tutorials, forum threads and official docs. Nothing original here.
+Initially created for "Kurzemes Inovaciju Granti Studentiem" project.
+
+A website to help people navigate the scape of universities in Latvia.
 
 ## Main Frameworks/Libraries/Packages
 
@@ -39,12 +41,6 @@ Rust
 - wasm-bindgen for WEB APIs
 
 ## Notes
-
-Django
-
-- One app created/installed called core
-- Custom user stubbed out in the Core app. No additional fields. Just a blank class that inherets AbstractUser. core.User is assigned as AUTH_USER_MODEL
-- SimpleJWT is installed but not used.
 
 React
 
