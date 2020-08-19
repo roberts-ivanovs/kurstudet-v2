@@ -50,22 +50,6 @@ React
 
 - To mark a css file as a module use the syntax of `import style from "styleFile.module.scss"`
 
-## Fork or Template
-
-Feel free to fork at will but it may be handier as template. The following are the steps I had in mind for using it as a project template:
-
-1. Create a new repo on GitHub without ReadMe
-2. On your local dev machine, and in your preferred parent directory:
-
-```sh
-
-$> git clone https://github.com/cglusky/docker-django-react.git <new-local-repo-dir>
-$> cd <new-local-repo-dir>
-$> git remote set-url origin <url-new-remote-repo-created-in-step-1>
-$> git push -u origin master
-
-```
-
 ### Edit And Rename .env-example
 
 All services expect to read env variables from .env.dev file. Please make sure you review the example and change the name to env.dev. AND that your gitignore handles env files before you commit super secret stuff to a public repo.
