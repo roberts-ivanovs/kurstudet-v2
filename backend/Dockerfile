@@ -12,6 +12,8 @@ ENV PYTHONUNBUFFERED 1
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN apk add --update --no-cache postgresql-client
+RUN apk add bash
+RUN apk add bash-completion
 # install temp dependencies for build of pyscopg2 etc
 RUN apk add --update --no-cache --virtual .tmp-build-deps \
   gcc \

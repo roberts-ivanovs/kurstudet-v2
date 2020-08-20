@@ -13,6 +13,9 @@ COPY package.json ./
 # RUN npm install
 RUN npm install react-scripts@3.4.1 -g
 
+RUN apk add bash
+RUN apk add bash-completion
+
 # add app
 COPY . ./
 
