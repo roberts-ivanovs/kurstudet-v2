@@ -1,4 +1,4 @@
 rust/target
-*/.vscode
 */node_modules
 */pkg
+.vscode/settings.json
