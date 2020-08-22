@@ -59,7 +59,7 @@ class Programme(models.Model):
         EXTRAMURAL = "EKS", _("Self taught")
 
     name = models.CharField(max_length=100, null=True, blank=True)
-    institution = models.ForeignKey(Institution, on_delete=models.PROTECT)
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     degree = models.CharField(max_length=100, choices=Degrees.choices)
     duration_years = models.DecimalField(max_digits=4, decimal_places=2)
     faculty = models.CharField(max_length=100, null=True, blank=True)
