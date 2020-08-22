@@ -52,7 +52,7 @@ All services expect to read env variables from .env.dev file. Please make sure y
 
 ### Useful Commands
 
-Build containers. Add -up flag to bring services up after build.
+Build containers
 
 ```sh
 
@@ -110,9 +110,9 @@ Please make all requests from your browser through http://localhost:8080 and NGI
 
 ## How to start developing in VSCode
 
-1. Install the [Docker extensions](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
+1. Install the [Docker extensions](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) and [Remote container development extensions](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 2. Start the containers with `docker-compose up`
 3. Open the Docker extension sidebar
 4. Right click on the container you want to do development in
 5. Select `Attach Visual Studio Code`
-![](docs/vscode-docker-remote-tut.png)
+![Tutorial on what to click](docs/vscode-docker-remote-tut.png)
