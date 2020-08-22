@@ -48,6 +48,12 @@ class Programme(models.Model):
         DOCTOR = "PHD", _("Doctors")
 
     class LearningTypes(models.TextChoices):
+        """
+        Learnign types defines the way how the given material is taught.
+        It can be split into three distinct groups: real-life, mostly distant
+        with occasional real life interaction and full on self-taught by the
+        students with no interaction with the teacher what so ever.
+        """
         REAL_LIFE = "IRL", _("Real life: Day, Night")
         DISTANT = "DIS", _("Semi-real life: Weekends, Sessions, E-studies")
         EXTRAMURAL = "EKS", _("Self taught")
