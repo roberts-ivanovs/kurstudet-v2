@@ -42,6 +42,7 @@ class LoginAPI(KnoxLoginView):
     """
 
     permission_classes = (permissions.AllowAny,)
+    serializer_class = LoginSerializer
 
     def post(self, request, format=None):
         """
