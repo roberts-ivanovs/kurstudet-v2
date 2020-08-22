@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from education.serializers import ProgrammeSerializer, UniversitySerializer
-from education.models import Programme, University
+from education.serializers import ProgrammeSerializer, InstitutionSerializer
+from education.models import Programme, Institution
 
 
 class ProgrammeViewset(viewsets.ModelViewSet):
@@ -13,10 +13,10 @@ class ProgrammeViewset(viewsets.ModelViewSet):
     queryset = Programme.objects.all()
 
 
-class UniversityViewset(viewsets.ModelViewSet):
+class InstitutionViewset(viewsets.ModelViewSet):
     """
-    A viewset for viewing and editing University instances.
+    A viewset for viewing and editing Institution instances.
     """
 
-    serializer_class = UniversitySerializer
-    queryset = University.objects.all()
+    serializer_class = InstitutionSerializer
+    queryset = Institution.objects.all()

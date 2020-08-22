@@ -2,9 +2,9 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-class University(models.Model):
+class Institution(models.Model):
     """
-    Store a university entry
+    Store an institution entry
     """
 
     name = models.CharField(
@@ -17,7 +17,7 @@ class University(models.Model):
     abbr = models.CharField(
         verbose_name=_("Abbreviation"),
         help_text=_(
-            "A short, concise way of how the instituion wants it's name "
+            "A short, concise way of how the institution wants it's name "
             "represented e.g - `VeA`, `LU`, `RTU`"
         ),
         max_length=10,
@@ -27,7 +27,7 @@ class University(models.Model):
         verbose_name=_("Location"),
         help_text=_(
             "The exact country, city, address of where the main building for "
-            "the given instituion is located at"
+            "the given institution is located at"
         ),
         max_length=50,
     )
@@ -59,7 +59,7 @@ class Programme(models.Model):
         EXTRAMURAL = "EKS", _("Self taught")
 
     name = models.CharField(max_length=100, null=True, blank=True)
-    university = models.ForeignKey(University, on_delete=models.PROTECT)
+    institution = models.ForeignKey(Institution, on_delete=models.PROTECT)
     degree = models.CharField(max_length=100, choices=Degrees.choices)
     duration_years = models.DecimalField(max_digits=4, decimal_places=2)
     faculty = models.CharField(max_length=100, null=True, blank=True)

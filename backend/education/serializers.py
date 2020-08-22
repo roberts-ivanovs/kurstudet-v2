@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from education.models import Programme, University
+from education.models import Programme, Institution
 
 
 class ProgrammeSerializer(serializers.ModelSerializer):
@@ -8,8 +8,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class UniversitySerializer(serializers.ModelSerializer):
+class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = University
+        model = Institution
         fields = "__all__"
-
