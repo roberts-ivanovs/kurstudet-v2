@@ -31,6 +31,7 @@ class Institution(models.Model):
         ),
         max_length=50,
     )
+    website = models.URLField(max_length=300, null=True, blank=True)
 
     def __str__(self):
         return self.abbr
@@ -54,6 +55,7 @@ class Programme(models.Model):
         with occasional real life interaction and full on self-taught by the
         students with no interaction with the teacher what so ever.
         """
+
         REAL_LIFE = "IRL", _("Real life: Day, Night")
         DISTANT = "DIS", _("Semi-real life: Weekends, Sessions, E-studies")
         EXTRAMURAL = "EKS", _("Self taught")
@@ -67,6 +69,14 @@ class Programme(models.Model):
     full_time = models.BooleanField()
     budget_places = models.IntegerField()
     total_places = models.IntegerField()
+    study_costs = models.IntegerField(
+        verbose_name=_("Study costs"),
+        help_text=_("Study costs per 1 year (2 semesters)"),
+    )
+    study_language = models.CharField(
+        max_length=30,
+        help_text=_("Full verbose name of the language: Latvian, English, etc."),
+    )
     website = models.URLField(max_length=300, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
