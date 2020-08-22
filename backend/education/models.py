@@ -7,9 +7,30 @@ class University(models.Model):
     Store a university entry
     """
 
-    name = models.CharField(max_length=100, unique=True)
-    abbr = models.CharField(max_length=10, unique=True)
-    city = models.CharField(max_length=50)
+    name = models.CharField(
+        help_text=_(
+            "The full name of the given institution e.g - `Ventspils Augstskola`"
+        ),
+        max_length=100,
+        unique=True,
+    )
+    abbr = models.CharField(
+        verbose_name=_("Abbreviation"),
+        help_text=_(
+            "A short, concise way of how the instituion wants it's name "
+            "represented e.g - `VeA`, `LU`, `RTU`"
+        ),
+        max_length=10,
+        unique=True,
+    )
+    location = models.CharField(
+        verbose_name=_("Location"),
+        help_text=_(
+            "The exact country, city, address of where the main building for "
+            "the given instituion is located at"
+        ),
+        max_length=50,
+    )
 
     def __str__(self):
         return self.abbr
