@@ -1,12 +1,15 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from core.models import User
+
 
 class Institution(models.Model):
     """
     Store an institution entry
     """
 
+    # Core information
     name = models.CharField(
         help_text=_(
             "The full name of the given institution e.g - `Ventspils Augstskola`"
@@ -31,6 +34,12 @@ class Institution(models.Model):
         ),
         max_length=50,
     )
+
+    # User system
+    managers = models.ManyToManyField(User, help_text=_(
+        "Users who are allowed to edit the information attached to the "
+        "institution instance"
+    ))
 
     def __str__(self):
         return self.abbr
@@ -58,6 +67,7 @@ class Programme(models.Model):
         DISTANT = "DIS", _("Semi-real life: Weekends, Sessions, E-studies")
         EXTRAMURAL = "EKS", _("Self taught")
 
+    # Core information
     name = models.CharField(max_length=100, null=True, blank=True)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     degree = models.CharField(max_length=100, choices=Degrees.choices)
