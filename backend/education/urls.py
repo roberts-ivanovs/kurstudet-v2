@@ -1,7 +1,7 @@
 from django.urls import include, path
-
-from education.views import ProgrammeViewset, InstitutionViewset
 from rest_framework.routers import DefaultRouter
+
+from education.views import InstitutionViewset, ProgrammeViewset
 
 router = DefaultRouter()
 router.register(r"programme", ProgrammeViewset, basename="programme")

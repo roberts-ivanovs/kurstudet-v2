@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from education.serializers import ProgrammeSerializer, InstitutionSerializer
-from education.models import Programme, Institution
+from education.models import Institution, Programme
+from education.serializers import InstitutionSerializer, ProgrammeSerializer
 
 
 class ProgrammeViewset(viewsets.ModelViewSet):
