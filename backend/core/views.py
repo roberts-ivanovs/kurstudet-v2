@@ -63,12 +63,10 @@ class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
-        """
-        API endpoint that allows a user to register.
-        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
+        user: User = serializer.save()
+        user.last_login = timezone.now()
         return Response(
             {
                 "user": UserSerializer(
