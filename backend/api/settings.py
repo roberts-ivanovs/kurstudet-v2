@@ -118,7 +118,7 @@ USE_TZ = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'knox.auth.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
 

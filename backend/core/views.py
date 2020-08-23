@@ -1,9 +1,5 @@
-from django.contrib.auth import login
 from django.contrib.auth.models import Group
-from knox.models import AuthToken
-from knox.views import LoginView as KnoxLoginView
 from rest_framework import generics, permissions, viewsets
-from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.response import Response
 
 from core.models import User
@@ -11,9 +7,9 @@ from core.serializers import (
     GroupSerializer,
     RegisterSerializer,
     UserSerializer,
-    LoginSerializer,
 )
-from django.utils import timezone
+
+from core.permissions import CanOnlyViewItself
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -23,7 +19,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
-    permission_classes = [permissions.DjangoModelPermissions]
+    permission_classes = [permissions.DjangoModelPermissions, CanOnlyViewItself]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -36,44 +32,23 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.DjangoModelPermissions]
 
 
-class LoginAPI(KnoxLoginView):
-    """
-    API endpoint that allows user to log in.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-    serializer_class = LoginSerializer
-
-    def post(self, request, format=None):
-        """
-        API endpoint that allows user to log in.
-        """
-        serializer = AuthTokenSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data["user"]
-        login(request, user)
-
-        return super(LoginAPI, self).post(request, format=None)
-
-
 # Register API
 class RegisterAPI(generics.GenericAPIView):
     """
     API endpoint that allows a user to register.
     """
 
+    permission_classes = (permissions.AllowAny,)
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user: User = serializer.save()
-        user.last_login = timezone.now()
         return Response(
             {
                 "user": UserSerializer(
                     user, context=self.get_serializer_context()
                 ).data,
-                "token": AuthToken.objects.create(user)[1],
             }
         )
