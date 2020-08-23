@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
+import { UserContextProvider } from "./global/UserContext";
 
 const rust = import('wasm-app');
 
@@ -11,7 +11,9 @@ rust
   .then((m) => {
     ReactDOM.render(
       <React.StrictMode>
-        <App wasm={m} />
+        <UserContextProvider>
+          <App wasm={m} />
+        </UserContextProvider>
       </React.StrictMode>,
       document.getElementById('root'),
     );
