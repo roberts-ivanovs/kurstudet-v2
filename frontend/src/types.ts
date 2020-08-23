@@ -13,10 +13,9 @@ export interface User {
     user_permissions: Array<Permissions>
 }
 
-export interface UserLogin {
-    expiry: string,
-    token: string,
-    user: User,
+export interface UserTokens {
+    refresh: string,
+    access: string,
 }
 
 export interface Groups {
@@ -25,4 +24,15 @@ export interface Groups {
 
 export interface Permissions {
     // TODO
+}
+
+export interface Token {
+    token_type: string,
+    exp: number,
+    jti: string
+    user_id: number,
+}
+
+export interface RefreshToken {
+    refresh: string
 }
