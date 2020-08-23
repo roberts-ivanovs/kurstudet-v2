@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from _datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -123,6 +124,7 @@ REST_FRAMEWORK = {
 
 REST_KNOX = {
     'USER_SERIALIZER': 'core.serializers.UserSerializer',
+    'AUTO_REFRESH': True,
 }
 
 # Static files (CSS, JavaScript, Images)
