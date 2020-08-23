@@ -1,36 +1,39 @@
 import React, { ReactElement, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import Requester from "./utils/Requester";
+import Requester from 'utils/Requester';
 
-import { useUser } from "./global/UserContext";
+import { useUser } from 'global/UserContext';
 
 interface Props {
   wasm: typeof import('wasm-app');
 }
-
 
 function App({ wasm }: Props): ReactElement {
   const user = useUser();
 
   // Sample login
   useEffect(() => {
-    user.logIn("admin", "admin");
-  }, [])
+    user.logIn('admin', 'admin');
+  }, []);
 
   // Sample logout
   useEffect(() => {
     if (user.user?.id) {
       user.logOut();
     }
-  }, [user.user])
+  }, [user.user]);
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Edit
+          <code>
+            src/App.tsx
+          </code>
+          and save to reload.
         </p>
         <a
           className="App-link"
