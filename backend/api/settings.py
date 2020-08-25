@@ -122,9 +122,9 @@ REST_FRAMEWORK = {
     ]
 }
 
-REST_KNOX = {
-    'USER_SERIALIZER': 'core.serializers.UserSerializer',
-    'AUTO_REFRESH': True,
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=300),
 }
 
 # Static files (CSS, JavaScript, Images)
