@@ -14,6 +14,7 @@ export interface UserContextInterface {
   user: User | null;
   logIn: (username: string, password: string) => void,
   logOut: () => void,
+  register: (username: string, email: string, password: string) => Promise<void>
 }
 
 export const ctxt = createContext<UserContextInterface>(
@@ -76,6 +77,10 @@ async function refreshAcessToken(refreshToken: string, setAcessToken: (arg0: str
   setAcessToken(refreshed.access);
 }
 
+async function register(username: string, email: string, password: string): Promise<User> {
+  return Requester.post('/api/core/reigster/', { username, password, email });
+}
+
 function UserContextProvider({ children }: Props): React.ReactElement {
   const [user, setUser] = useState<User | null>(null);
   const [accessTokenRaw, setAccessTokenRaw] = useState<string>();
@@ -131,6 +136,10 @@ function UserContextProvider({ children }: Props): React.ReactElement {
         logOut(setUser);
         setAccessTokenRaw('');
       },
+      register: async (username: string, email: string, password: string) => {
+        const createduser = await register(username, email, password);
+        logIn(username, password, setAccessTokenRaw);
+      }
     }}
     >
       {children}
