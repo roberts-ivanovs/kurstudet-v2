@@ -1,6 +1,10 @@
-import Requester from "utils/Requester";
-import React, { createContext, useState, useEffect } from 'react';
-import { User, UserTokens, Token, RefreshToken } from "types";
+import Requester from 'utils/Requester';
+import React, {
+  createContext, useState, useEffect, useCallback,
+} from 'react';
+import {
+  User, UserTokens, Token, RefreshToken, AcessToken,
+} from 'types';
 
 interface Props {
   children: JSX.Element
@@ -27,78 +31,111 @@ export const ctxt = createContext<UserContextInterface>(
   }),
 );
 
-const Provider = ctxt.Provider;
+const { Provider } = ctxt;
 
-
-
-//////////////////////////////////
+/// ///////////////////////////////
 /**
  * Furhter down is factual implementation of the context
  */
-//////////////////////////////////
+/// ///////////////////////////////
 
+const refreshTokenName = 'ks2refr';
 
-async function logIn(username: string, password: string, cbRefreshRaw: (arg0: string) => void, cbAcessRaw: (arg0: string) => void) {
-  const tokens: UserTokens = await Requester.post("/api/core/token/", { username, password });
+function setRefreshToken(refreshToken: string) {
+  // FIXME: Do not store refresh tokens in localstorage. use httpOnly cookies.
+  // Currently the backend does not support that.
+  window.localStorage.setItem(refreshTokenName, refreshToken);
+}
+
+async function logIn(username: string, password: string, cbAcessRaw: (arg0: string) => void) {
+  const tokens: UserTokens = await Requester.post('/api/core/token/', { username, password });
 
   Requester.setAuthHeader(tokens.access);
 
-  cbRefreshRaw(tokens.refresh);
+  setRefreshToken(tokens.refresh);
   cbAcessRaw(tokens.access);
+  window.localStorage.removeItem('logout');
 }
 
-async function logOut(cb: (arg0: User| null) => void) {
-  Requester.setAuthHeader("");
-  cb(null)
+async function logOut(cb: (arg0: User | null) => void) {
+  console.log('LOGOUT');
+
+  Requester.setAuthHeader('');
+  cb(null);
+  window.localStorage.setItem('logout', Date.now().toString());
+  window.localStorage.removeItem(refreshTokenName);
 }
 
 async function getUser(userId: number, cb: (arg0: User) => void) {
   const user: User = await Requester.get(`/api/core/user/${userId}/`);
-  cb(user)
+  cb(user);
 }
-
 
 async function refreshAcessToken(refreshToken: string, setAcessToken: (arg0: string) => void) {
-  console.log("Performing refresh");
-  const refreshed: RefreshToken = await Requester.post("/api/core/token/refresh/", { refresh: refreshToken });
-  console.log(refreshed.refresh);
-  setAcessToken(refreshed.refresh);
+  const refreshed: AcessToken = await Requester.post('/api/core/token/refresh/', { refresh: refreshToken });
+  setAcessToken(refreshed.access);
 }
-
 
 function UserContextProvider({ children }: Props): React.ReactElement {
   const [user, setUser] = useState<User | null>(null);
-  const [refreshTokenRaw, setRefreshTokenRaw] = useState<string>();
   const [accessTokenRaw, setAccessTokenRaw] = useState<string>();
 
+  // Get token from memory
+  const refreshTokenRaw = window.localStorage.getItem(refreshTokenName);
+  const handle401: () => void = () => {
+    logOut(setUser);
+  };
+
+  Requester.registerAuthFail(handle401);
+
+  const loginFunction = (username: string, password: string) => {
+    logOut(setUser);
+    logIn(username, password, setAccessTokenRaw);
+  };
+
+  // Get acess token
   useEffect(() => {
-    if (accessTokenRaw) {
-      const payload_access: Token = JSON.parse(atob(accessTokenRaw.split(".")[1]));
-      getUser(payload_access.user_id, setUser);
+    if (refreshTokenRaw && refreshTokenRaw.length > 0) {
+      refreshAcessToken(refreshTokenRaw, setAccessTokenRaw);
+    }
+  }, [refreshTokenRaw]);
+
+  // Get current user using acess token
+  useEffect(() => {
+    Requester.setAuthHeader(accessTokenRaw || '');
+    if (accessTokenRaw && accessTokenRaw.length > 0) {
+      const payloadAccess: Token = JSON.parse(atob(accessTokenRaw.split('.')[1]));
+      getUser(payloadAccess.user_id, setUser);
     }
   }, [accessTokenRaw]);
 
+  // Refresh acess token
   useEffect(() => {
-    if (refreshTokenRaw) {
-      const timeout = setTimeout(() => { refreshAcessToken(refreshTokenRaw, setAccessTokenRaw); }, 3000);
-    }
-  }, [refreshTokenRaw]);
+    const payloadAccess: number = accessTokenRaw && refreshTokenRaw ? JSON.parse(atob(accessTokenRaw.split('.')[1])).exp : 999999999999;
+    // Request the new token 3 seconds earlier just in case there's some
+    // delay or slow connection
+    const refr = (payloadAccess * 1000) - Date.now() - 3000;
+    const interval = setInterval(() => {
+      if (refreshTokenRaw) {
+        refreshAcessToken(refreshTokenRaw, setAccessTokenRaw);
+      }
+    }, refr);
+    return () => clearInterval(interval);
+  }, [accessTokenRaw, refreshTokenRaw]);
 
   return (
     <Provider value={{
       user,
-      logIn: (username: string, password: string) => logIn(username, password, setRefreshTokenRaw, setAccessTokenRaw),
+      logIn: loginFunction,
       logOut: () => {
-        logOut(setUser)
-        setRefreshTokenRaw("");
-        setAccessTokenRaw("");
+        logOut(setUser);
+        setAccessTokenRaw('');
       },
-    }
-
-    }>
+    }}
+    >
       {children}
     </Provider>
-  )
+  );
 }
 
 const useUser = (): UserContextInterface => React.useContext(ctxt);
