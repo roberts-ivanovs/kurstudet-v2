@@ -18,7 +18,7 @@ services:
   react:
     build: ./frontend
     container_name: dev-react
-    command: sh -c "npm install && npm start"
+    command: sh -c "yarn install && npm start"
     ports:
       - 3001:3000
     env_file:
