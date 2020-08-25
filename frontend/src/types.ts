@@ -26,8 +26,13 @@ export interface Permissions {
     // TODO
 }
 
+export enum TokenType {
+    'access',
+    'refresh',
+}
+
 export interface Token {
-    token_type: string,
+    token_type: TokenType,
     exp: number,
     jti: string
     user_id: number,
@@ -35,4 +40,7 @@ export interface Token {
 
 export interface RefreshToken {
     refresh: string
+}
+export interface AcessToken {
+    access: string
 }

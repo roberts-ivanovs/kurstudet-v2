@@ -12,28 +12,27 @@ interface Props {
 function App({ wasm }: Props): ReactElement {
   const user = useUser();
 
-  // Sample login
-  useEffect(() => {
-    user.logIn('admin', 'admin');
-  }, []);
+  // // Sample login
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     user.logIn('test', 'test');
+
+  //   }, 1000)
+  // }, []);
 
   // Sample logout
-  useEffect(() => {
-    if (user.user?.id) {
-      user.logOut();
-    }
-  }, [user.user]);
+  // useEffect(() => {
+  //   if (user.user?.id) {
+  //     // user.logOut();
+  //   }
+  // }, [user.user?.username]);
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit
-          <code>
-            src/App.tsx
-          </code>
-          and save to reload.
+          Logged in as {user.user?.username}
         </p>
         <a
           className="App-link"
