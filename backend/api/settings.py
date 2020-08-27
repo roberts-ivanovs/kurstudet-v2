@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Django external libraries
     "rest_framework",
-    'knox',
     # My apps
     "core",
     "education",
