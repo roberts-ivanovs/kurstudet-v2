@@ -25,7 +25,8 @@
     "baseUrl": "src"
   },
   "include": [
-    "src"
+    "src",
+    "src/rust"
   ],
   "typeRoots": [
     "./@types"

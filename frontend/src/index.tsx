@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { UserContextProvider } from "./global/UserContext";
 
-const rust = import('wasm-app');
+const rust = import('rust');
 
 rust
   .then((m) => {

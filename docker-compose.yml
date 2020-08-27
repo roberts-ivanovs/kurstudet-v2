@@ -58,9 +58,9 @@ services:
   rust:
     build: ./rust
     container_name: dev-rust
-    command: sh -c 'cargo watch -i .gitignore -i "pkg/*" -s "wasm-pack build --out-dir /srv/app/rust/pkg"'
+    command: sh -c 'cargo watch -i .gitignore -i "pkg/*" -s "wasm-pack build --out-dir /srv/app/rust/pkg/"'
     volumes:
-      - wasm:/srv/app/rust
+      - wasm:/srv/app/rust/pkg/
     restart: on-failure
 volumes:
   wasm:

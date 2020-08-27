@@ -6,12 +6,11 @@ import Requester from 'utils/Requester';
 import { useUser } from 'global/UserContext';
 
 interface Props {
-  wasm: typeof import('wasm-app');
+  wasm: typeof import('rust');
 }
 
 function App({ wasm }: Props): ReactElement {
   const user = useUser();
-
   // // Sample login
   // useEffect(() => {
   //   setTimeout(() => {
