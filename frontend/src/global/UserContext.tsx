@@ -1,10 +1,14 @@
+/**
+ * The main context provider for the User system.
+ *
+ * Wrap all of your components in the `UserContextProvider` and manage users
+ * via `useUser` hook.
+ */
+
 import Requester from 'utils/Requester';
-import React, {
-  createContext, useState, useEffect, useCallback,
-} from 'react';
-import {
-  User, UserTokens, Token, RefreshToken, AcessToken,
-} from 'types';
+import React, { createContext, useState, useEffect } from 'react';
+import { User, Token } from 'types';
+import { refreshAcessToken, getUser, logIn, logOut, register, refreshTokenName } from "./UserContext.helper";
 
 interface Props {
   children: JSX.Element
@@ -34,52 +38,9 @@ export const ctxt = createContext<UserContextInterface>(
 
 const { Provider } = ctxt;
 
-/// ///////////////////////////////
 /**
- * Furhter down is factual implementation of the context
+ * Further down is factual implementation of the context
  */
-/// ///////////////////////////////
-
-const refreshTokenName = 'ks2refr';
-
-function setRefreshToken(refreshToken: string) {
-  // FIXME: Do not store refresh tokens in localstorage. use httpOnly cookies.
-  // Currently the backend does not support that.
-  window.localStorage.setItem(refreshTokenName, refreshToken);
-}
-
-async function logIn(username: string, password: string, cbAcessRaw: (arg0: string) => void) {
-  const tokens: UserTokens = await Requester.post('/api/core/token/', { username, password });
-
-  Requester.setAuthHeader(tokens.access);
-
-  setRefreshToken(tokens.refresh);
-  cbAcessRaw(tokens.access);
-  window.localStorage.removeItem('logout');
-}
-
-async function logOut(cb: (arg0: User | null) => void) {
-  console.log('LOGOUT');
-
-  Requester.setAuthHeader('');
-  cb(null);
-  window.localStorage.setItem('logout', Date.now().toString());
-  window.localStorage.removeItem(refreshTokenName);
-}
-
-async function getUser(userId: number, cb: (arg0: User) => void) {
-  const user: User = await Requester.get(`/api/core/user/${userId}/`);
-  cb(user);
-}
-
-async function refreshAcessToken(refreshToken: string, setAcessToken: (arg0: string) => void) {
-  const refreshed: AcessToken = await Requester.post('/api/core/token/refresh/', { refresh: refreshToken });
-  setAcessToken(refreshed.access);
-}
-
-async function register(username: string, email: string, password: string): Promise<User> {
-  return Requester.post('/api/core/reigster/', { username, password, email });
-}
 
 function UserContextProvider({ children }: Props): React.ReactElement {
   const [user, setUser] = useState<User | null>(null);
@@ -139,7 +100,7 @@ function UserContextProvider({ children }: Props): React.ReactElement {
       register: async (username: string, email: string, password: string) => {
         const createduser = await register(username, email, password);
         logIn(username, password, setAccessTokenRaw);
-      }
+      },
     }}
     >
       {children}
