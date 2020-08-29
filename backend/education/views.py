@@ -1,7 +1,11 @@
-from rest_framework import viewsets
+from rest_framework import permissions, viewsets
 
 from education.models import Institution, Programme
 from education.serializers import InstitutionSerializer, ProgrammeSerializer
+from education.permissions import (
+    IsOwnerOrReadOnlyInstitution,
+    IsOwnerOrReadOnlyProgramme,
+)
 
 
 class ProgrammeViewset(viewsets.ModelViewSet):
@@ -11,6 +15,10 @@ class ProgrammeViewset(viewsets.ModelViewSet):
 
     serializer_class = ProgrammeSerializer
     queryset = Programme.objects.all()
+    permission_classes = [
+        permissions.DjangoModelPermissionsOrAnonReadOnly,
+        IsOwnerOrReadOnlyProgramme,
+    ]
 
 
 class InstitutionViewset(viewsets.ModelViewSet):
@@ -20,3 +28,7 @@ class InstitutionViewset(viewsets.ModelViewSet):
 
     serializer_class = InstitutionSerializer
     queryset = Institution.objects.all()
+    permission_classes = [
+        permissions.DjangoModelPermissionsOrAnonReadOnly,
+        IsOwnerOrReadOnlyInstitution,
+    ]
