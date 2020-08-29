@@ -8,7 +8,9 @@
 import Requester from 'utils/Requester';
 import React, { createContext, useState, useEffect } from 'react';
 import { User, Token } from 'types';
-import { refreshAcessToken, getUser, logIn, logOut, register, refreshTokenName } from "./UserContext.helper";
+import {
+  refreshAcessToken, getUser, logIn, logOut, register, refreshTokenName,
+} from 'global/UserContext.helper';
 
 interface Props {
   children: JSX.Element

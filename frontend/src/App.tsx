@@ -1,7 +1,6 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement } from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import Requester from 'utils/Requester';
 
 import { useUser } from 'global/UserContext';
 
