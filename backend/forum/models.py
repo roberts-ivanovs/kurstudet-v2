@@ -7,7 +7,7 @@ class Question(models.Model):
 
     title = models.CharField(_("Question title"), max_length=100)
     clarification = models.TextField(_("Clarification"))
-    asker_fk = models.ForeignKey(
+    author_fk = models.ForeignKey(
         "core.User", verbose_name=_("Asker"), on_delete=models.CASCADE
     )
 
@@ -25,7 +25,7 @@ class Question(models.Model):
 class Answer(models.Model):
 
     answer = models.TextField(_("Answer"))
-    answerer_fk = models.ForeignKey(
+    author_fk = models.ForeignKey(
         "core.User", verbose_name=_("Answerer"), on_delete=models.CASCADE
     )
 

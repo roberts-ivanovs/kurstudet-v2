@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ),
                 ("clarification", models.TextField(verbose_name="Clarification")),
                 (
-                    "asker_fk",
+                    "author_fk",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         to=settings.AUTH_USER_MODEL,
@@ -81,7 +81,7 @@ class Migration(migrations.Migration):
                 ),
                 ("answer", models.TextField(verbose_name="Answer")),
                 (
-                    "answerer_fk",
+                    "author_fk",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         to=settings.AUTH_USER_MODEL,
