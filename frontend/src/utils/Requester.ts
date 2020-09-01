@@ -1,41 +1,90 @@
-import Axios, { AxiosStatic } from 'axios';
+import Axios, { AxiosError } from 'axios';
+import {
+  RegisterUserRequest,
+  TokenRequest,
+  TokenRefreshRequest,
+  UserRequest,
+  RegisterUserResponse,
+} from 'requesterTypes';
+import { UserTokens, AcessToken, User } from 'types';
+
+const apiClient = Axios.create({});
+
+const urls = {
+  'register-user': '/api/core/register/',
+  'get-token': '/api/core/token/',
+  'refresh-token': '/api/core/token/refresh/',
+  'get-user': '/api/core/user/',
+};
+
+function isAxiosError(err: AxiosError | unknown): err is AxiosError {
+  return (err as AxiosError).response !== undefined;
+}
+
+function handleError(err: AxiosError | unknown, url: string): void {
+  if (isAxiosError(err)) {
+    console.error(
+      "Endpoint: '",
+      url,
+      "' returned an error\nMessage: ",
+      err.message,
+    );
+  }
+}
+
+async function get<T, B>(url: string, params: B): Promise<T> {
+  const response = await apiClient
+    .get<T>(url, { params })
+    .catch((err: AxiosError | unknown) => {
+      handleError(err, url);
+      throw err;
+    });
+  return response.data;
+}
+
+async function post<T, B>(url: string, params: B): Promise<T> {
+  const response = await apiClient
+    .post<T>(url, params)
+    .catch((err: AxiosError | unknown) => {
+      handleError(err, url);
+      throw err;
+    });
+  return response.data;
+}
 
 class Requester {
-  axios: AxiosStatic;
+  // getInstallations = (
+  //   params: InstallationRequest,
+  // ): Promise<InstallationReturn> => get(urls['get-all-installations'], params);
 
   registered401Cb: () => void;
 
   authHeader: { Authorization: string };
 
   constructor() {
-    this.axios = Axios;
     this.authHeader = { Authorization: '' };
-    this.registered401Cb = () => { };
+    this.registered401Cb = () => {};
   }
 
-  post = async (url: string, data = {}): Promise<any> => {
-    const response = await this.axios
-      .post(url, data, { headers: this.authHeader })
-      .catch((error) => error.response);
-    return response.data;
-  };
+  postRegisterUser = (
+    params: RegisterUserRequest,
+  ): Promise<RegisterUserResponse> => post(urls['register-user'], params);
 
-  get = async (url: string, params = ''): Promise<any> => {
-    const response = await this.axios.get(url, {
-      params,
-      headers: this.authHeader,
-    });
-    return response.data;
-  };
+  getToken = (params: TokenRequest): Promise<UserTokens> => get(urls['get-token'], params);
 
-  setAuthHeader = (token: string) => {
+  getTokenRefresh = (params: TokenRefreshRequest): Promise<AcessToken> => get(urls['refresh-token'], params);
+
+  getUser = (params: UserRequest): Promise<User> => get(`${urls['get-user']}${params.userId.toString()}/`, '');
+
+  setAuthHeader = (token: string): void => {
     this.authHeader = { Authorization: `Bearer ${token}` };
-  }
+  };
 
   // What to do if a request gets 401 -> call a callback
-  registerAuthFail = (callback: () => void) => {
+  registerAuthFail = (callback: () => void): void => {
     this.registered401Cb = callback;
-  }
+  };
 }
-const RequesterInstance = new Requester();
-export default RequesterInstance;
+
+const requesterInstance = new Requester();
+export { requesterInstance as Requester };
