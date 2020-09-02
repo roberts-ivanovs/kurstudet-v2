@@ -45,4 +45,4 @@ function App({ wasm }: Props): ReactElement {
   );
 }
 
-export default App;
+export { App };
