@@ -1,15 +1,17 @@
 import React, { ReactElement } from 'react';
-import logo from './logo.svg';
 import './App.scss';
 
-import { useUser } from 'global/UserContext';
+// import { useUser } from 'global/UserContext';
+import { Header } from 'core/PageBase/Header';
+import { Main } from 'core/PageBase/Main';
+import { Footer } from 'core/PageBase/Footer';
 
 interface Props {
   wasm: typeof import('rust');
 }
 
 function App({ wasm }: Props): ReactElement {
-  const user = useUser();
+  // const user = useUser();
   // // Sample login
   // useEffect(() => {
   //   setTimeout(() => {
@@ -26,22 +28,11 @@ function App({ wasm }: Props): ReactElement {
   // }, [user.user?.username]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Logged in as {user.user?.username}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <Main />
+      <Footer />
+    </>
   );
 }
 
