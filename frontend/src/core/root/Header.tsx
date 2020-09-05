@@ -28,7 +28,7 @@ export function Header(): React.ReactElement {
           Par
         </Link>
         <Link
-          to={{ pathname: 'about' }}
+          to={{ pathname: 'connect' }}
         >
           Pieslēgties
         </Link>
