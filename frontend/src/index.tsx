@@ -1,20 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
-import App from 'App';
+import { App } from 'App';
 import * as serviceWorker from 'serviceWorker';
 import { UserContextProvider } from 'global/UserContext';
+import { Router } from 'react-router-dom';
+import { history } from 'utils/history';
 
 const rust = import('rust');
 
 rust
   .then((m) => {
     ReactDOM.render(
-      <React.StrictMode>
-        <UserContextProvider>
-          <App wasm={m} />
-        </UserContextProvider>
-      </React.StrictMode>,
+      <Router history={history}>
+        <React.StrictMode>
+          <UserContextProvider>
+            <App wasm={m} />
+          </UserContextProvider>
+        </React.StrictMode>
+      </Router>,
       document.getElementById('root'),
     );
   })

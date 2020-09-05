@@ -5,22 +5,31 @@
  * via `useUser` hook.
  */
 
-import Requester from 'utils/Requester';
+import { Requester } from 'utils/Requester';
 import React, { createContext, useState, useEffect } from 'react';
 import { User, Token } from 'types';
 import {
-  refreshAcessToken, getUser, logIn, logOut, register, refreshTokenName,
+  refreshAcessToken,
+  getUser,
+  logIn,
+  logOut,
+  register,
+  refreshTokenName,
 } from 'global/UserContext.helper';
 
 interface Props {
-  children: JSX.Element
+  children: JSX.Element;
 }
 
 export interface UserContextInterface {
   user: User | null;
-  logIn: (username: string, password: string) => void,
-  logOut: () => void,
-  register: (username: string, email: string, password: string) => Promise<void>
+  logIn: (username: string, password: string) => void;
+  logOut: () => void;
+  register: (
+    username: string,
+    email: string,
+    password: string
+  ) => Promise<void>;
 }
 
 export const ctxt = createContext<UserContextInterface>(
@@ -56,15 +65,17 @@ function UserContextProvider({ children }: Props): React.ReactElement {
 
   Requester.registerAuthFail(handle401);
 
-  const loginFunction = (username: string, password: string) => {
+  const loginFunction = (username: string, password: string): void => {
     logOut(setUser);
-    logIn(username, password, setAccessTokenRaw);
+    // TODO Catch should be handled appropriately
+    logIn(username, password, setAccessTokenRaw).catch((err) => console.log(err));
   };
 
   // Get acess token
   useEffect(() => {
     if (refreshTokenRaw && refreshTokenRaw.length > 0) {
-      refreshAcessToken(refreshTokenRaw, setAccessTokenRaw);
+      // TODO Catch should be handled appropriately
+      refreshAcessToken(refreshTokenRaw, setAccessTokenRaw).catch((err) => console.log(err));
     }
   }, [refreshTokenRaw]);
 
@@ -72,38 +83,46 @@ function UserContextProvider({ children }: Props): React.ReactElement {
   useEffect(() => {
     Requester.setAuthHeader(accessTokenRaw || '');
     if (accessTokenRaw && accessTokenRaw.length > 0) {
-      const payloadAccess: Token = JSON.parse(atob(accessTokenRaw.split('.')[1]));
-      getUser(payloadAccess.user_id, setUser);
+      const payloadAccess: Token = JSON.parse(
+        atob(accessTokenRaw.split('.')[1]),
+      );
+      // TODO Catch should be handled appropriately
+      getUser(payloadAccess.user_id, setUser).catch((err) => console.log(err));
     }
   }, [accessTokenRaw]);
 
   // Refresh acess token
   useEffect(() => {
-    const payloadAccess: number = accessTokenRaw && refreshTokenRaw ? JSON.parse(atob(accessTokenRaw.split('.')[1])).exp : 999999999999;
+    const payloadAccess: number = accessTokenRaw && refreshTokenRaw
+      ? JSON.parse(atob(accessTokenRaw.split('.')[1])).exp
+      : 999999999999;
     // Request the new token 3 seconds earlier just in case there's some
     // delay or slow connection
-    const refr = (payloadAccess * 1000) - Date.now() - 3000;
+    const refr = payloadAccess * 1000 - Date.now() - 3000;
     const interval = setInterval(() => {
       if (refreshTokenRaw) {
-        refreshAcessToken(refreshTokenRaw, setAccessTokenRaw);
+        // TODO Catch should be handled appropriately
+        refreshAcessToken(refreshTokenRaw, setAccessTokenRaw).catch((err) => console.log(err));
       }
     }, refr);
     return () => clearInterval(interval);
   }, [accessTokenRaw, refreshTokenRaw]);
 
   return (
-    <Provider value={{
-      user,
-      logIn: loginFunction,
-      logOut: () => {
-        logOut(setUser);
-        setAccessTokenRaw('');
-      },
-      register: async (username: string, email: string, password: string) => {
-        const createduser = await register(username, email, password);
-        logIn(username, password, setAccessTokenRaw);
-      },
-    }}
+    <Provider
+      value={{
+        user,
+        logIn: loginFunction,
+        logOut: () => {
+          logOut(setUser);
+          setAccessTokenRaw('');
+        },
+        register: async (username: string, email: string, password: string) => {
+          const createduser = await register(username, email, password);
+          // TODO Catch should be handled appropriately
+          logIn(username, password, setAccessTokenRaw).catch((err) => console.log(err));
+        },
+      }}
     >
       {children}
     </Provider>
