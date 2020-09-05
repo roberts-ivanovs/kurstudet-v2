@@ -1,12 +1,12 @@
 import React from 'react';
-import '../../utils/StyleUtils.scss';
 import { Link } from 'react-router-dom';
+import styleUtil from '../../utils/StyleUtils.module.scss';
 import style from './Header.module.scss';
 
 export function Header(): React.ReactElement {
   return (
     <div className={`${style['fixed-top']} ${style['navbar-box']}`}>
-      <nav className={style['center-vertical']} role="navigation">
+      <nav className={styleUtil['center-vertical']} role="navigation">
         <Link
           to={{ pathname: '/' }}
         >
