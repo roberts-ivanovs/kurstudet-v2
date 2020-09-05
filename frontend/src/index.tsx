@@ -3,15 +3,14 @@ import ReactDOM from 'react-dom';
 import { App } from 'App';
 import * as serviceWorker from 'serviceWorker';
 import { UserContextProvider } from 'global/UserContext';
-import { Router } from 'react-router-dom';
-import { history } from 'utils/history';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const rust = import('rust');
 
 rust
   .then((m) => {
     ReactDOM.render(
-      <Router history={history}>
+      <Router>
         <React.StrictMode>
           <UserContextProvider>
             <App wasm={m} />
