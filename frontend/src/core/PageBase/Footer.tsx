@@ -1,9 +1,13 @@
 import React from 'react';
 
+import './Footer.scss';
+
 export function Footer(): React.ReactElement {
   return (
-    <footer>
-      <p>Made with *love* and *coffee*</p>
-    </footer>
+    <div className="footer-box">
+      <footer>
+        <p>Made with *love* and *coffee*</p>
+      </footer>
+    </div>
   );
 }
