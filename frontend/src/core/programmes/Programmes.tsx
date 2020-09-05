@@ -1,10 +1,8 @@
 import React, { ReactElement } from 'react';
+import { Filters } from "./Filters";
+import { Grid } from "./Grid";
 
-interface Props {
-
-}
-
-export function Programmes({ }: Props): ReactElement {
+export function Programmes(): ReactElement {
   return (
     <>
       <Filters />
