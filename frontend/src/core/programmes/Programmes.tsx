@@ -6,6 +6,9 @@ interface Props {
 
 export function Programmes({ }: Props): ReactElement {
   return (
-    <div />
+    <>
+      <Filters />
+      <Grid />
+    </>
   );
 }
