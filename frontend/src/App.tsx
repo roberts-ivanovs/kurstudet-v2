@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react';
-import './App.scss';
 
 // import { useUser } from 'global/UserContext';
 import { Header } from 'core/PageBase/Header';
