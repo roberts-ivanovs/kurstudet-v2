@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../utils/StyleUtils.scss';
 import { Link } from 'react-router-dom';
 import style from './Header.module.scss';
 
