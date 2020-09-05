@@ -45,3 +45,42 @@ export interface RefreshToken {
 export interface AcessToken {
   access: string
 }
+
+export interface Institution {
+  id: number,
+  name: string,
+  abbr: string,
+  location: string,
+  website: string,
+  managers: Array<number>,
+}
+
+export enum Degrees {
+  College,
+  Bachelors,
+  Masters,
+  Doctors,
+}
+
+export enum LearningTypes {
+  REAL_LIFE,
+  DISTANT,
+  EXTRAMURAL,
+}
+
+export interface Programme {
+  id: number,
+  name: string,
+  institution: number,
+  degree: Degrees,
+  duration_years: number,
+  faculty: string,
+  learning_type: LearningTypes,
+  full_time: string,
+  budget_places: number,
+  total_places: number,
+  study_costs: number,
+  study_language: string,
+  website: string,
+  description: string,
+}
