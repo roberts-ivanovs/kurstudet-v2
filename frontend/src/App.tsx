@@ -10,22 +10,6 @@ interface Props {
 }
 
 function App({ wasm }: Props): ReactElement {
-  // const user = useUser();
-  // // Sample login
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     user.logIn('test', 'test');
-
-  //   }, 1000)
-  // }, []);
-
-  // Sample logout
-  // useEffect(() => {
-  //   if (user.user?.id) {
-  //     // user.logOut();
-  //   }
-  // }, [user.user?.username]);
-
   return (
     <>
       <Header />
