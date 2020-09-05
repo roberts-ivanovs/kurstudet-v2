@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # My apps
     "core",
     "education",
+    "forum",
 ]
 
 MIDDLEWARE = [
