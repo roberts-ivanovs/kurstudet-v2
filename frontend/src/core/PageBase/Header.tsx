@@ -10,11 +10,27 @@ export function Header(): React.ReactElement {
         <Link
           to={{ pathname: '/' }}
         >
-          <li>
-            <div>
-              <span>Sākums</span>
-            </div>
-          </li>
+          Sākums
+        </Link>
+        <Link
+          to={{ pathname: 'programmes' }}
+        >
+          Programmas
+        </Link>
+        <Link
+          to={{ pathname: 'forum' }}
+        >
+          Forums
+        </Link>
+        <Link
+          to={{ pathname: 'about' }}
+        >
+          Par
+        </Link>
+        <Link
+          to={{ pathname: 'about' }}
+        >
+          Pieslēgties
         </Link>
       </nav>
     </div>
