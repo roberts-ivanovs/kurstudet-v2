@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { Institution, Programme } from 'types';
+import { Institution, Programme, LearningTypes } from 'types';
 import { SimpleFilter } from 'core/programmes/filter/SimpleFilter';
 
 export function Filters(): ReactElement {
@@ -21,9 +21,37 @@ export function Filters(): ReactElement {
       value: false,
       label: 'Nepilna laika',
     },
-  ]
-  const [isFullTime, setisFullTime] = useState<Array<boolean>>([]);
+  ];
+  const [isFullTime, setIsFullTime] = useState<Array<boolean>>([]);
 
+  // Learning type
+  const learningTypes = [
+    {
+      value: LearningTypes.DISTANT,
+      label: 'Attālināti',
+    },
+    {
+      value: LearningTypes.EXTRAMURAL,
+      label: 'Pašmācība',
+    },
+    {
+      value: LearningTypes.REAL_LIFE,
+      label: 'Klātiene',
+    },
+  ];
+  const [learnignTypesSelected, setLearnignTypesSelected] = useState<Array<LearningTypes>>([]);
+
+  // Cost
+  const allCosts = programmes ? programmes.map(
+    (el) => ({ label: el.study_costs.toString(), value: el.study_costs }),
+  ) : [];
+  const [costSelected, setCostSelected] = useState<Array<number>>([]);
+
+  // Durations
+  const allDurations = programmes ? programmes.map(
+    (el) => ({ label: el.duration_years.toString(), value: el.duration_years }),
+  ) : [];
+  const [durationSelected, setDurationSelected] = useState<Array<number>>([]);
 
   return (
     <div>
@@ -50,7 +78,28 @@ export function Filters(): ReactElement {
           Pilna/nepilna laika
           <SimpleFilter
             options={fullTimeOptions}
-            setActive={setisFullTime}
+            setActive={setIsFullTime}
+          />
+        </li>
+        <li>
+          Maksa
+          <SimpleFilter
+            options={allCosts}
+            setActive={setCostSelected}
+          />
+        </li>
+        <li>
+          Klātiene / neklātiene
+          <SimpleFilter
+            options={learningTypes}
+            setActive={setLearnignTypesSelected}
+          />
+        </li>
+        <li>
+          Ilgums
+          <SimpleFilter
+            options={allDurations}
+            setActive={setDurationSelected}
           />
         </li>
       </ul>
