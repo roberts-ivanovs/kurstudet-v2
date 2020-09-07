@@ -10,7 +10,37 @@ a:link {
     width: 100%;
 }
 
+.header-wrapper {
+    margin: 0% 10% 0% 10%;
+    width: 80%;
+}
+
 .navbar-box {
     height: 13vh;
-    // background-color: white;
+    background-color: $secondary-white-color;
+}
+
+.navbar-link {
+    display: inline-block;
+    margin: 0 2.5% 0 2.5%;
+}
+
+.navbar-text {
+    margin: 0;
+    color: $text-color;
+}
+
+.navbar-first-item {
+    margin-left: 0%;
+}
+
+.navbar-button {
+    float: inline-end;
+    background-color: $accent-color;
+    padding: 1rem 2rem 1rem 2rem;
+}
+
+.navbar-button-text {
+    margin: 0;
+    color: white;
 }
