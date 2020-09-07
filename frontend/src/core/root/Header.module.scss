@@ -1,4 +1,9 @@
 @import '../../utils/StyleUtils.module.scss';
+
+a:link {
+    text-decoration: none;
+}
+
 .fixed-top {
     position: fixed;
     top: 0;
