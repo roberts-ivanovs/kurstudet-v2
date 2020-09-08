@@ -68,7 +68,7 @@ class Programme(models.Model):
     learning_type = models.CharField(max_length=100, choices=LearningTypes.choices)
     full_time = models.BooleanField()
     budget_places = models.IntegerField()
-    total_places = models.IntegerField()
+    total_places = models.IntegerField(null=True, blank=True)
     study_costs = models.IntegerField(
         verbose_name=_("Study costs"),
         help_text=_("Study costs per 1 year (2 semesters)"),
@@ -82,3 +82,8 @@ class Programme(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        constraints = [
+
+        ]
