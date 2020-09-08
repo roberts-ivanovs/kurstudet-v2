@@ -6,7 +6,7 @@ import {
   UserRequest,
   RegisterUserResponse,
 } from 'requesterTypes';
-import { UserTokens, AcessToken, User } from 'types';
+import { UserTokens, AcessToken, User, Programme } from 'types';
 
 const apiClient = Axios.create({});
 
@@ -15,6 +15,7 @@ const urls = {
   'get-token': '/api/core/token/',
   'refresh-token': '/api/core/token/refresh/',
   'get-user': '/api/core/user/',
+  programme: '/api/education/programme',
 };
 
 function isAxiosError(err: AxiosError | unknown): err is AxiosError {
@@ -84,6 +85,11 @@ class Requester {
   registerAuthFail = (callback: () => void): void => {
     this.registered401Cb = callback;
   };
+
+  getProgrammes = (
+    params: unknown,
+  ): Promise<Array<Programme>> => get(urls.programme, params);
+
 }
 
 const requesterInstance = new Requester();

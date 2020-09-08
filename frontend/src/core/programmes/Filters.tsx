@@ -1,15 +1,22 @@
 import React, { ReactElement, useState } from 'react';
 import { Institution, Programme, LearningTypes } from 'types';
 import { SimpleFilter } from 'core/programmes/filter/SimpleFilter';
+import { distinct } from 'utils/Helper';
 
-export function Filters(): ReactElement {
+interface Props {
+  allProgrammes: Array<Programme>,
+  setVisibleProgrammes: (arg0: Array<Programme>) => void,
+}
+
+export function Filters({ allProgrammes, setVisibleProgrammes }: Props): ReactElement {
   // Institutions
   const [institutions, setInstitutions] = useState<Array<Institution>>([]);
   const [institutionsSelected, setInstitutionsSelected] = useState<Array<Institution>>();
 
   // Programmes
-  const [programmes, setProgrammes] = useState<Array<Programme>>([]);
-  const [programmesSelected, setProgrammesSelected] = useState<Array<Programme>>();
+  const filterProgrammes = distinct(allProgrammes.map(
+    (el) => ({ value: el, label: el.name }),
+  ));
 
   // Full time or not
   const fullTimeOptions = [
@@ -42,15 +49,17 @@ export function Filters(): ReactElement {
   const [learnignTypesSelected, setLearnignTypesSelected] = useState<Array<LearningTypes>>([]);
 
   // Cost
-  const allCosts = programmes ? programmes.map(
+  const allCosts = distinct(allProgrammes.map(
     (el) => ({ label: el.study_costs.toString(), value: el.study_costs }),
-  ) : [];
+  ));
+  console.log(allCosts);
+
   const [costSelected, setCostSelected] = useState<Array<number>>([]);
 
   // Durations
-  const allDurations = programmes ? programmes.map(
+  const allDurations = distinct(allProgrammes.map(
     (el) => ({ label: el.duration_years.toString(), value: el.duration_years }),
-  ) : [];
+  ));
   const [durationSelected, setDurationSelected] = useState<Array<number>>([]);
 
   return (
@@ -68,10 +77,8 @@ export function Filters(): ReactElement {
         <li>
           Programmas
           <SimpleFilter
-            options={programmes ? programmes?.map(
-              (el) => ({ value: el, label: el.name })
-            ) : []}
-            setActive={setProgrammesSelected}
+            options={filterProgrammes}
+            setActive={setVisibleProgrammes}
           />
         </li>
         <li>

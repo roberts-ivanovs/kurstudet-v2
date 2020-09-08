@@ -84,3 +84,8 @@ export interface Programme {
   website: string,
   description: string,
 }
+
+export interface FilterOptions<T> {
+  value: T,
+  label: string,
+}
