@@ -1,0 +1,4 @@
+name,institution,degree,duration,faculty,learning_type,full_time,budget_places,total_places,study_costs,study_language,website,description
+Datorzinātnes,Ventspils Augstskola,Bakalaura diploms,3 gadi,Informācijas tehnoloģiju fakultāte,Klātiene dienas,True,True,,2270 EUR gadā,latviešu/angļu (LV/EN),venta.lv/program/bakalaura-datorzinatnes,(the long description)
+Tulkošana,Ventspils Augstskola,Bakalaura diploms,4 gadi,Tulkošanas studiju fakultāte,Klātiene dienas,True,True,,1270 EUR gadā,latviešu/angļu (LV/EN),venta.lv/program/bakalaura-datorzinatnes,(the long description)
+Datorzinātnes,Latvijas Universitāte,Bakalaura diploms,4 gadi,Datorzinātņu fakultāte,Neklātienes dienas,True,True,,4270 EUR gadā,latviešu/angļu (LV/EN),venta.lv/program/bakalaura-datorzinatnes,(the long description)

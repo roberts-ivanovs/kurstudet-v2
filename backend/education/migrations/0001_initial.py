@@ -101,7 +101,7 @@ class Migration(migrations.Migration):
                 ),
                 ("full_time", models.BooleanField()),
                 ("budget_places", models.IntegerField()),
-                ("total_places", models.IntegerField()),
+                ("total_places", models.IntegerField(null=True, blank=True)),
                 (
                     "study_costs",
                     models.IntegerField(
