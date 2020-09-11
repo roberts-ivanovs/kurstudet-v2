@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from csv import writer
 
-
+# scraper for Institutions
 with open("Institutions.csv", "w") as csv_file:
     csv_writer = writer(csv_file)
     headers = ["name", "abbr", "location", "website"]
@@ -38,3 +38,23 @@ with open("Institutions.csv", "w") as csv_file:
             csv_writer.writerow([name, abbr, location, website])
 
         print(i)
+
+# Scraper for study programmes
+with open("Programmes.csv", "w") as csv_file:
+    csv_writer = writer(csv_file)
+    headers = [
+        "name",
+        "Institution",
+        "degree",
+        "duration",
+        "faculty",
+        "learning_type",
+        "full_time",
+        "budget_places",
+        "total_places",
+        "study_costs",
+        "study_language",
+        "website",
+        "description",
+    ]
+    csv_writer.writerow(headers)
