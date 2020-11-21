@@ -5,7 +5,5 @@ $secondary-blue-color: #729CA2;
 $text-color: #222222;
 
 .center-vertical {
-    margin: 0;
-    position: absolute;
-    top: 50%;
+    align-items: center;
 }

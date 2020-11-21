@@ -13,16 +13,34 @@ a:link {
 .header-wrapper {
     margin: 0% 10% 0% 10%;
     width: 80%;
+    box-sizing: border-box;
+}
+
+.list-box {
+    margin: 0;
+    padding: 0;
 }
 
 .navbar-box {
-    height: 13vh;
+    height: 7rem;
     background-color: $secondary-white-color;
+    display: flex;
 }
 
 .navbar-link {
-    display: inline-block;
+    display: inline-flex;
     margin: 0 2.5% 0 2.5%;
+}
+
+.navbar-underline {
+    // background-color: $accent-color;
+    // background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    background-size: 100% 0.1rem;
+    background-position: 0 88%;
+    transition: background-size 0.25s ease-in;
+    &:hover{
+        background-size: 100% 88%;
+    }
 }
 
 .navbar-text {
@@ -35,12 +53,17 @@ a:link {
 }
 
 .navbar-button {
-    float: inline-end;
-    background-color: $accent-color;
-    padding: 1rem 2rem 1rem 2rem;
+    display:  block;
+    float: right;
+    margin-right: 10%;
 }
 
 .navbar-button-text {
     margin: 0;
     color: white;
+    border: none;
+    padding: 1rem 2.5rem 1rem 2.5rem;
+    background-color: $accent-color;
+    border-radius: 0.5rem;
+    cursor: pointer;
 }
